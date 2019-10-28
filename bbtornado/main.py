@@ -210,9 +210,13 @@ def main(app):
 
     if not tornado.options.options.fcgi:
 
-        http_server = tornado.httpserver.HTTPServer(app)
-
         server_opts = le_config.tornado.server
+        xheaders = False
+        if 'xheaders' in server_opts:
+            xheaders = server_opts.xheaders
+
+        http_server = tornado.httpserver.HTTPServer(app, xheaders=xheaders)
+
         host = server_opts.host
         port = server_opts.port
         base = server_opts.base
